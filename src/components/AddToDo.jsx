@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DisplayCount from './DisplayCount';
+import { connect } from 'react-redux';
+import {addToDo} from '../redux/actions/todo';
+import { v4 } from 'uuid';
 
 
-const AddToDo = () => {
+const AddToDo = ({addtodo}) => {
     const [formData, setFormData] = useState({
       title: '',
-      description: ''
+      description: '',
+      id:''
     });
   
     const handleInputChange = (e) => {
@@ -19,6 +24,8 @@ const AddToDo = () => {
   
     const handleSubmit = (e) => {
       e.preventDefault();
+  
+      addtodo({...formData,id:v4()});
       console.log('Form submitted with data:', formData);
       setFormData({
         title: '',
@@ -28,6 +35,7 @@ const AddToDo = () => {
   
     return (
       <Container>
+        <DisplayCount />
         <h2 style={{marginTop: "40px"}}>Add ToDo</h2>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="title">
@@ -59,5 +67,12 @@ const AddToDo = () => {
     );
   };
   
-  export default AddToDo;
+
+  //props se jo addtodo aa rha h use map karna Reducer function se
+  const mapStateToProps=(state)=>({})
+  const mapDispatchToProps=(dispatch)=>({
+    addtodo: (todo)=>(dispatch(addToDo(todo)))
+    //dispatch k ander action pass
+  })
+  export default connect(mapStateToProps,mapDispatchToProps)(AddToDo);
   

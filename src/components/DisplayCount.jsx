@@ -1,11 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const DisplayCount = () => {
+const DisplayCount = ({todos}) => {
   return (
     <div>
-       <h1>Total Count : 12</h1>
+       <h1>{todos.length}</h1>
     </div>
   )
 }
 
-export default DisplayCount
+const mapStateToProps=(state)=>{
+  return {todos : state.todoReducer}
+}
+ const mapDispatchToProps=(dispatch)=>({
+  // addtodo: (todo)=>(dispatch(addToDo(todo)))
+   //dispatch k ander action pass
+ })
+ export default connect(mapStateToProps,mapDispatchToProps)(DisplayCount);
+
